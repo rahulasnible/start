@@ -1,0 +1,31 @@
+---
+ - name: Unix team users creation
+   hosts: all
+   become_user: root
+   gather_facts: true
+   vars:
+     # created with:
+     # openssl passwd -salt 'Welcome#1' -1 'Welcome#1'
+     team_passwd: '$1$Welcome#$ASAODVraLUVisqLSXc8Ec.'
+   tasks:
+     - name: Creating Unix team users
+       user:
+        name: "{{ item }}" 
+        password: "{{ team_passwd }}"
+        shell: /bin/bash
+        group: users
+        comment: User account for "{{ item }}"
+       with_items:
+         - ranarahu
+         - yathipat
+         - shankabh
+         - maddulam
+         - meerupal  
+         - sahupink
+         - bhanjpri
+     
+     - name: Forcing user to change the password
+       chage
+
+
+    
